@@ -1,1 +1,1 @@
-web: bash python 3.py
+web: python 3.py
