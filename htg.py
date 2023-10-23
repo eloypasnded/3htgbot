@@ -26,14 +26,14 @@ def download_images(id_manga, title, message):
     
     for i, link in enumerate(image_links):
         response = requests.get(link)
-        with open(f"{id_manga}_{title}/{i}.jpg", 'wb') as f:
+        with open(f"{title}/{i}.jpg", 'wb') as f:
             f.write(response.content)
         bot.edit_message_text(chat_id=message.chat.id, message_id=msg.message_id, text=f"Descargando... {i+1}/{len(image_links)}")
     
     return image_links
 
 def create_cbz(title):
-    with zipfile.ZipFile(f"{id_manga}_{title}.cbz", 'w') as zipf:
+    with zipfile.ZipFile(f"{{title}.cbz", 'w') as zipf:
         for root, dirs, files in os.walk(title):
             for file in files:
                 zipf.write(os.path.join(root, file))
@@ -47,12 +47,12 @@ def handle_command(message):
     url = f"https://es.3hentai.net/d/{id_manga}"
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
-    title = soup.title.string
+    title = id_manga + soup.title.string
     
     try:
         image_links = download_images(id_manga, title, message)
         create_cbz(title)
-        with open(f"{id_manga}_{title}.cbz", 'rb') as cbz_file:
+        with open(f"{title}.cbz", 'rb') as cbz_file:
             bot.send_document(message.chat.id, cbz_file)
         os.remove(f"{title}.cbz")
     except Exception as e:
