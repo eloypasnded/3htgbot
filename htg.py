@@ -33,7 +33,7 @@ def download_images(id_manga, title, message):
     return image_links
 
 def create_cbz(title):
-    with zipfile.ZipFile(f"{title}.cbz", 'w') as zipf:
+    with zipfile.ZipFile(f"{id_manga}_{title}.cbz", 'w') as zipf:
         for root, dirs, files in os.walk(title):
             for file in files:
                 zipf.write(os.path.join(root, file))
@@ -52,7 +52,7 @@ def handle_command(message):
     try:
         image_links = download_images(id_manga, title, message)
         create_cbz(title)
-        with open(f"{title}.cbz", 'rb') as cbz_file:
+        with open(f"{id_manga}_{title}.cbz", 'rb') as cbz_file:
             bot.send_document(message.chat.id, cbz_file)
         os.remove(f"{title}.cbz")
     except Exception as e:
@@ -65,7 +65,7 @@ def main():
          except Exception as e:
              print('Error de conexion')
              # Espera 10 segundos antes de intentar reconectarse
-             time.sleep(3)
+             time.sleep(5)
 
 if __name__ == '__main__':
      main()
