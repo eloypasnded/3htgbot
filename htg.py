@@ -47,8 +47,9 @@ def handle_command(message):
     url = f"https://es.3hentai.net/d/{id_manga}"
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
-    title = id_manga + eloytest
     eloytest = soup.title.string
+    title = id_manga + eloytest
+    
 
     
     try:
