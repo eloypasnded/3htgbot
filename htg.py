@@ -48,6 +48,7 @@ def handle_command(message):
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
     title = soup.title.string
+    title = id_manga + title
     
     try:
         image_links = download_images(id_manga, title, message)
