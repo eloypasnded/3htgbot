@@ -47,8 +47,9 @@ def handle_command(message):
     url = f"https://es.3hentai.net/d/{id_manga}"
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
-    title = soup.title.string
-    title = id_manga + title
+    title = id_manga + eloytest
+    eloytest = soup.title.string
+
     
     try:
         image_links = download_images(id_manga, title, message)
